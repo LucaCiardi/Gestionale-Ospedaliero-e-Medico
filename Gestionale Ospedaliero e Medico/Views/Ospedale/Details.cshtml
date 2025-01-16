@@ -1,0 +1,55 @@
+﻿@model Gestionale_Ospedaliero_e_Medico.Models.Ospedale
+
+@{
+    ViewData["Title"] = "Dettagli Ospedale";
+}
+
+<h1>Dettagli Ospedale</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Nome)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Nome)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Sede)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Sede)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Pubblico)</dt>
+        <dd class="col-sm-10">@(Model.Pubblico ? "Sì" : "No")</dd>
+    </dl>
+
+    <h4 class="mt-4">Medici dell'Ospedale</h4>
+    @if (Model.Medici != null && Model.Medici.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Cognome</th>
+                    <th>Reparto</th>
+                    <th>Primario</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var medico in Model.Medici)
+                {
+                    <tr>
+                        <td>@medico.Nome</td>
+                        <td>@medico.Cognome</td>
+                        <td>@medico.Reparto</td>
+                        <td>@(medico.Primario ? "Sì" : "No")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Nessun medico associato a questo ospedale.</p>
+    }
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Modifica</a>
+    <a asp-action="Index" class="btn btn-secondary">Torna alla Lista</a>
+</div>

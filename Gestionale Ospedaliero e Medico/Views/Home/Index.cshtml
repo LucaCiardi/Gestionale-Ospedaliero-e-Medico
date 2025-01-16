@@ -1,0 +1,53 @@
+﻿<div class="text-center">
+    <h1 class="display-4 mb-5">Benvenuto nel Gestionale Ospedaliero</h1>
+
+    <div class="row justify-content-center g-4">
+        <div class="col-md-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center d-flex flex-column">
+                    <div>
+                        <h3 class="text-primary">
+                            <i class="bi bi-building"></i> Ospedali
+                        </h3>
+                        <p class="text-muted">Gestisci gli ospedali della rete sanitaria.</p>
+                    </div>
+                    <div class="mt-auto">
+                        <a href="@Url.Action("Index", "Ospedale")" class="btn btn-primary">Vai agli Ospedali</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mx-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center d-flex flex-column">
+                    <div>
+                        <h3 class="text-primary">
+                            <i class="bi bi-person-vcard"></i> Medici
+                        </h3>
+                        <p class="text-muted">Gestisci il personale medico.</p>
+                    </div>
+                    <div class="mt-auto">
+                        <a href="@Url.Action("Index", "Medico")" class="btn btn-primary">Vai ai Medici</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center d-flex flex-column">
+                    <div>
+                        <h3 class="text-primary">
+                            <i class="bi bi-people"></i> Pazienti
+                        </h3>
+                        <p class="text-muted">Gestisci i pazienti ricoverati.</p>
+                    </div>
+                    <div class="mt-auto">
+                        <a href="@Url.Action("Index", "Paziente")" class="btn btn-primary">Vai ai Pazienti</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

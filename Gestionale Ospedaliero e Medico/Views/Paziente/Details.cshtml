@@ -1,0 +1,43 @@
+﻿@model Gestionale_Ospedaliero_e_Medico.Models.Paziente
+
+@{
+    ViewData["Title"] = "Dettagli Paziente";
+}
+
+<h1>Dettagli Paziente</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Nome)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Nome)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Cognome)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Cognome)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.DataNascita)</dt>
+        <dd class="col-sm-9">@Model.DataNascita.ToShortDateString()</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Residenza)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Residenza)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.CodiceFiscale)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.CodiceFiscale)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.DataRicovero)</dt>
+        <dd class="col-sm-9">@Model.DataRicovero.ToShortDateString()</dd>
+
+        <dt class="col-sm-3">Medico Curante</dt>
+        <dd class="col-sm-9">@($"{Model.Medico?.Cognome} {Model.Medico?.Nome}")</dd>
+
+        <dt class="col-sm-3">Reparto</dt>
+        <dd class="col-sm-9">@Model.Medico?.Reparto</dd>
+
+        <dt class="col-sm-3">Ospedale</dt>
+        <dd class="col-sm-9">@Model.Medico?.Ospedale?.Nome</dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Modifica</a>
+    <a asp-action="Index" class="btn btn-secondary">Torna alla Lista</a>
+</div>

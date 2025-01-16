@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using Gestionale_Ospedaliero_e_Medico.Data;
-using Gestionale_Ospedaliero_e_Medico.Services.Interfaces;
 using Gestionale_Ospedaliero_e_Medico.Services.Implementations;
+using Gestionale_Ospedaliero_e_Medico.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,12 +30,20 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseRouting();
-
+// Routing configuration
+app.UseRouting();  // UseRouting deve essere prima di UseEndpoints
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// Aggiungi UseEndpoints per assicurare il corretto funzionamento del routing
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});
 
 app.Run();

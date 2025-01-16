@@ -1,0 +1,73 @@
+﻿@model Gestionale_Ospedaliero_e_Medico.Models.Medico
+
+@{
+    ViewData["Title"] = "Dettagli Medico";
+}
+
+<h1>Dettagli Medico</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Nome)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Nome)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Cognome)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Cognome)</dd>
+
+        <dt class="col-sm-3">Data di Nascita</dt>
+        <dd class="col-sm-9">@Model.Dob.ToShortDateString()</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Residenza)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Residenza)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Reparto)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Reparto)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Primario)</dt>
+        <dd class="col-sm-9">@(Model.Primario ? "Sì" : "No")</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.PazientiGuariti)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.PazientiGuariti)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.TotaleDecessi)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.TotaleDecessi)</dd>
+
+        <dt class="col-sm-3">Ospedale</dt>
+        <dd class="col-sm-9">@Model.Ospedale?.Nome</dd>
+    </dl>
+
+    <h4 class="mt-4">Pazienti Attuali</h4>
+    @if (Model.Pazienti != null && Model.Pazienti.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Cognome</th>
+                    <th>Data Ricovero</th>
+                    <th>Codice Fiscale</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var paziente in Model.Pazienti)
+                {
+                    <tr>
+                        <td>@paziente.Nome</td>
+                        <td>@paziente.Cognome</td>
+                        <td>@paziente.DataRicovero.ToShortDateString()</td>
+                        <td>@paziente.CodiceFiscale</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Nessun paziente attualmente in cura.</p>
+    }
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Modifica</a>
+    <a asp-action="Index" class="btn btn-secondary">Torna alla Lista</a>
+</div>

@@ -1,0 +1,43 @@
+﻿@model Gestionale_Ospedaliero_e_Medico.Models.Medico
+
+@{
+    ViewData["Title"] = "Elimina Medico";
+}
+
+<h1>Elimina Medico</h1>
+
+<div class="alert alert-danger">
+    <h4>Sei sicuro di voler eliminare questo medico?</h4>
+    <p>Questa operazione non può essere annullata.</p>
+</div>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Nome)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Nome)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Cognome)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Cognome)</dd>
+
+        <dt class="col-sm-3">Data di Nascita</dt>
+        <dd class="col-sm-9">@Model.Dob.ToShortDateString()</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Reparto)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Reparto)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Primario)</dt>
+        <dd class="col-sm-9">@(Model.Primario ? "Sì" : "No")</dd>
+
+        <dt class="col-sm-3">Ospedale</dt>
+        <dd class="col-sm-9">@Model.Ospedale?.Nome</dd>
+
+        <dt class="col-sm-3">Pazienti Attuali</dt>
+        <dd class="col-sm-9">@Model.Pazienti?.Count</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Elimina" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Annulla</a>
+    </form>
+</div>

@@ -1,4 +1,13 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿// Add this to site.js
+$(document).ready(function () {
+    // Auto-hide alerts after 5 seconds
+    setTimeout(function () {
+        $('.alert').fadeOut('slow');
+    }, 5000);
 
-// Write your JavaScript code.
+    // Enable tooltips everywhere
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+});
