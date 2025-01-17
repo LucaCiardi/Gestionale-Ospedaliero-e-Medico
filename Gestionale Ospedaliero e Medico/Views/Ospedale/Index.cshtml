@@ -54,10 +54,42 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.Nome)</th>
-            <th>@Html.DisplayNameFor(model => model.Sede)</th>
-            <th>@Html.DisplayNameFor(model => model.Pubblico)</th>
-            <th>Numero Medici</th>
+            <th>
+                <a href="@Url.Action("Index", new { sortBy = "nome", ascending = ViewBag.CurrentSort == "nome" ? false : true })" class="text-dark text-decoration-none">
+                    @Html.DisplayNameFor(model => model.Nome)
+                    @if (ViewBag.CurrentSort == "nome")
+                    {
+                        <i class="bi bi-arrow-@(ViewBag.SortAscending ? "up" : "down")"></i>
+                    }
+                </a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", new { sortBy = "sede", ascending = ViewBag.CurrentSort == "sede" ? false : true })" class="text-dark text-decoration-none">
+                    @Html.DisplayNameFor(model => model.Sede)
+                    @if (ViewBag.CurrentSort == "sede")
+                    {
+                        <i class="bi bi-arrow-@(ViewBag.SortAscending ? "up" : "down")"></i>
+                    }
+                </a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", new { sortBy = "tipo", ascending = ViewBag.CurrentSort == "tipo" ? false : true })" class="text-dark text-decoration-none">
+                    @Html.DisplayNameFor(model => model.Pubblico)
+                    @if (ViewBag.CurrentSort == "tipo")
+                    {
+                        <i class="bi bi-arrow-@(ViewBag.SortAscending ? "up" : "down")"></i>
+                    }
+                </a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", new { sortBy = "medici", ascending = ViewBag.CurrentSort == "medici" ? false : true })" class="text-dark text-decoration-none">
+                    Numero Medici
+                    @if (ViewBag.CurrentSort == "medici")
+                    {
+                        <i class="bi bi-arrow-@(ViewBag.SortAscending ? "up" : "down")"></i>
+                    }
+                </a>
+            </th>
             <th>Azioni</th>
         </tr>
     </thead>

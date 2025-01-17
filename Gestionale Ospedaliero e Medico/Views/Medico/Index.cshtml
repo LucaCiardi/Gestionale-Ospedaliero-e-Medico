@@ -66,12 +66,52 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.Nome)</th>
-            <th>@Html.DisplayNameFor(model => model.Cognome)</th>
-            <th>@Html.DisplayNameFor(model => model.Reparto)</th>
+            <th>
+                <a href="@Url.Action("Index", new { sortBy = "nome", ascending = ViewBag.CurrentSort == "nome" ? false : true })" class="text-dark text-decoration-none">
+                    @Html.DisplayNameFor(model => model.Nome)
+                    @if (ViewBag.CurrentSort == "nome")
+                    {
+                        <i class="bi bi-arrow-@(ViewBag.SortAscending ? "up" : "down")"></i>
+                    }
+                </a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", new { sortBy = "cognome", ascending = ViewBag.CurrentSort == "cognome" ? false : true })" class="text-dark text-decoration-none">
+                    @Html.DisplayNameFor(model => model.Cognome)
+                    @if (ViewBag.CurrentSort == "cognome")
+                    {
+                        <i class="bi bi-arrow-@(ViewBag.SortAscending ? "up" : "down")"></i>
+                    }
+                </a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", new { sortBy = "reparto", ascending = ViewBag.CurrentSort == "reparto" ? false : true })" class="text-dark text-decoration-none">
+                    @Html.DisplayNameFor(model => model.Reparto)
+                    @if (ViewBag.CurrentSort == "reparto")
+                    {
+                        <i class="bi bi-arrow-@(ViewBag.SortAscending ? "up" : "down")"></i>
+                    }
+                </a>
+            </th>
             <th>@Html.DisplayNameFor(model => model.Primario)</th>
-            <th>Ospedale</th>
-            <th>Pazienti Attuali</th>
+            <th>
+                <a href="@Url.Action("Index", new { sortBy = "ospedale", ascending = ViewBag.CurrentSort == "ospedale" ? false : true })" class="text-dark text-decoration-none">
+                    Ospedale
+                    @if (ViewBag.CurrentSort == "ospedale")
+                    {
+                        <i class="bi bi-arrow-@(ViewBag.SortAscending ? "up" : "down")"></i>
+                    }
+                </a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", new { sortBy = "pazienti", ascending = ViewBag.CurrentSort == "pazienti" ? false : true })" class="text-dark text-decoration-none">
+                    Pazienti Attuali
+                    @if (ViewBag.CurrentSort == "pazienti")
+                    {
+                        <i class="bi bi-arrow-@(ViewBag.SortAscending ? "up" : "down")"></i>
+                    }
+                </a>
+            </th>
             <th>Azioni</th>
         </tr>
     </thead>

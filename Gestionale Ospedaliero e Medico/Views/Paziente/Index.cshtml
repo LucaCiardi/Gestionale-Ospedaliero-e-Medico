@@ -49,17 +49,18 @@
         <div class="col-md-2">
             <div class="form-group">
                 <label class="form-label">Data Ricovero Da</label>
-                <input type="date" name="DataRicoveroInizio" class="form-control">
+                <input type="date" name="DataRicoveroInizio" class="form-control"
+                       value="@ViewBag.CurrentDataInizio">
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
                 <label class="form-label">Data Ricovero A</label>
-                <input type="date" name="DataRicoveroFine" class="form-control">
+                <input type="date" name="DataRicoveroFine" class="form-control"
+                       value="@ViewBag.CurrentDataFine">
             </div>
         </div>
-        <!-- Other filter controls... -->
-        <div class="col-md-2 d-flex align-items-end">
+        <div class="col-md-12 d-flex justify-content-end">
             <button type="submit" class="btn btn-primary">
                 <i class="bi bi-search"></i> Filtra
             </button>
@@ -73,7 +74,10 @@
         <thead>
             <tr>
                 <th>
-                    <a href="@Url.Action("Index", new { sortBy = "nome", ascending = ViewBag.CurrentSort == "nome" ? false : true })" class="text-dark text-decoration-none">
+                    <a href="@Url.Action("Index", new { sortBy = "nome", ascending = ViewBag.CurrentSort == "nome" ? false : true,
+                        SearchTerm = ViewBag.CurrentFilter, MedicoId = ViewBag.CurrentMedicoId, Reparto = ViewBag.CurrentReparto,
+                        DataRicoveroInizio = ViewBag.CurrentDataInizio, DataRicoveroFine = ViewBag.CurrentDataFine })"
+                       class="text-dark text-decoration-none">
                         @Html.DisplayNameFor(model => model.Nome)
                         @if (ViewBag.CurrentSort == "nome")
                         {
@@ -82,7 +86,10 @@
                     </a>
                 </th>
                 <th>
-                    <a href="@Url.Action("Index", new { sortBy = "cognome", ascending = ViewBag.CurrentSort == "cognome" ? false : true })" class="text-dark text-decoration-none">
+                    <a href="@Url.Action("Index", new { sortBy = "cognome", ascending = ViewBag.CurrentSort == "cognome" ? false : true,
+                        SearchTerm = ViewBag.CurrentFilter, MedicoId = ViewBag.CurrentMedicoId, Reparto = ViewBag.CurrentReparto,
+                        DataRicoveroInizio = ViewBag.CurrentDataInizio, DataRicoveroFine = ViewBag.CurrentDataFine })"
+                       class="text-dark text-decoration-none">
                         @Html.DisplayNameFor(model => model.Cognome)
                         @if (ViewBag.CurrentSort == "cognome")
                         {
@@ -91,7 +98,10 @@
                     </a>
                 </th>
                 <th>
-                    <a href="@Url.Action("Index", new { sortBy = "dataNascita", ascending = ViewBag.CurrentSort == "dataNascita" ? false : true })" class="text-dark text-decoration-none">
+                    <a href="@Url.Action("Index", new { sortBy = "dataNascita", ascending = ViewBag.CurrentSort == "dataNascita" ? false : true,
+                        SearchTerm = ViewBag.CurrentFilter, MedicoId = ViewBag.CurrentMedicoId, Reparto = ViewBag.CurrentReparto,
+                        DataRicoveroInizio = ViewBag.CurrentDataInizio, DataRicoveroFine = ViewBag.CurrentDataFine })"
+                       class="text-dark text-decoration-none">
                         @Html.DisplayNameFor(model => model.DataNascita)
                         @if (ViewBag.CurrentSort == "dataNascita")
                         {
@@ -101,7 +111,10 @@
                 </th>
                 <th>@Html.DisplayNameFor(model => model.CodiceFiscale)</th>
                 <th>
-                    <a href="@Url.Action("Index", new { sortBy = "dataRicovero", ascending = ViewBag.CurrentSort == "dataRicovero" ? false : true })" class="text-dark text-decoration-none">
+                    <a href="@Url.Action("Index", new { sortBy = "dataRicovero", ascending = ViewBag.CurrentSort == "dataRicovero" ? false : true,
+                        SearchTerm = ViewBag.CurrentFilter, MedicoId = ViewBag.CurrentMedicoId, Reparto = ViewBag.CurrentReparto,
+                        DataRicoveroInizio = ViewBag.CurrentDataInizio, DataRicoveroFine = ViewBag.CurrentDataFine })"
+                       class="text-dark text-decoration-none">
                         @Html.DisplayNameFor(model => model.DataRicovero)
                         @if (ViewBag.CurrentSort == "dataRicovero")
                         {
@@ -109,8 +122,30 @@
                         }
                     </a>
                 </th>
-                <th>Medico Curante</th>
-                <th>Ospedale</th>
+                <th>
+                    <a href="@Url.Action("Index", new { sortBy = "medico", ascending = ViewBag.CurrentSort == "medico" ? false : true,
+                        SearchTerm = ViewBag.CurrentFilter, MedicoId = ViewBag.CurrentMedicoId, Reparto = ViewBag.CurrentReparto,
+                        DataRicoveroInizio = ViewBag.CurrentDataInizio, DataRicoveroFine = ViewBag.CurrentDataFine })"
+                       class="text-dark text-decoration-none">
+                        Medico Curante
+                        @if (ViewBag.CurrentSort == "medico")
+                        {
+                            <i class="bi bi-arrow-@(ViewBag.SortAscending ? "up" : "down")"></i>
+                        }
+                    </a>
+                </th>
+                <th>
+                    <a href="@Url.Action("Index", new { sortBy = "ospedale", ascending = ViewBag.CurrentSort == "ospedale" ? false : true,
+                        SearchTerm = ViewBag.CurrentFilter, MedicoId = ViewBag.CurrentMedicoId, Reparto = ViewBag.CurrentReparto,
+                        DataRicoveroInizio = ViewBag.CurrentDataInizio, DataRicoveroFine = ViewBag.CurrentDataFine })"
+                       class="text-dark text-decoration-none">
+                        Ospedale
+                        @if (ViewBag.CurrentSort == "ospedale")
+                        {
+                            <i class="bi bi-arrow-@(ViewBag.SortAscending ? "up" : "down")"></i>
+                        }
+                    </a>
+                </th>
                 <th>Azioni</th>
             </tr>
         </thead>
