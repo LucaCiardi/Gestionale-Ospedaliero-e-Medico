@@ -15,6 +15,19 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
             _medicoService = medicoService;
             _ospedaleService = ospedaleService;
         }
+        // GET: Medico
+        public async Task<IActionResult> Index(MedicoFilterModel filter)
+        {
+            // Prepare filter dropdowns
+            var ospedali = await _ospedaleService.GetAllOspedali();
+            ViewBag.Ospedali = new SelectList(ospedali, "Id", "Nome", filter.OspedaleId);
+
+            var medici = await _medicoService.GetAllMedici();
+            ViewBag.Reparti = new SelectList(medici.Select(m => m.Reparto).Distinct());
+
+            var filteredMedici = await _medicoService.GetFilteredMedici(filter);
+            return View(filteredMedici);
+        }
 
         // GET: Medico
         public async Task<IActionResult> Index()
@@ -115,6 +128,17 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
         {
             var medici = await _medicoService.GetMediciByReparto(reparto);
             return View("Index", medici);
+        }
+        // Add sorting action
+        [HttpGet]
+        public async Task<IActionResult> Sort(string sortBy, bool ascending)
+        {
+            var filter = new MedicoFilterModel
+            {
+                SortBy = sortBy,
+                SortAscending = ascending
+            };
+            return RedirectToAction(nameof(Index), filter);
         }
     }
 }

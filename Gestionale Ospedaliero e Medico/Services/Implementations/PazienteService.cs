@@ -13,7 +13,61 @@ namespace Gestionale_Ospedaliero_e_Medico.Services.Implementations
         {
             _context = context;
         }
+        public async Task<IEnumerable<Paziente>> GetFilteredPazienti(PazienteFilterModel filter)
+        {
+            var query = _context.Pazienti
+                .Include(p => p.Medico)
+                .ThenInclude(m => m.Ospedale)
+                .AsQueryable();
 
+            // Apply filters
+            if (!string.IsNullOrEmpty(filter.SearchTerm))
+            {
+                query = query.Where(p => p.Nome.Contains(filter.SearchTerm) ||
+                                       p.Cognome.Contains(filter.SearchTerm) ||
+                                       p.CodiceFiscale.Contains(filter.SearchTerm));
+            }
+
+            if (filter.MedicoId.HasValue)
+            {
+                query = query.Where(p => p.MedicoId == filter.MedicoId);
+            }
+
+            if (!string.IsNullOrEmpty(filter.Reparto))
+            {
+                query = query.Where(p => p.Medico.Reparto == filter.Reparto);
+            }
+
+            if (filter.DataRicoveroInizio.HasValue)
+            {
+                query = query.Where(p => p.DataRicovero >= filter.DataRicoveroInizio);
+            }
+
+            if (filter.DataRicoveroFine.HasValue)
+            {
+                query = query.Where(p => p.DataRicovero <= filter.DataRicoveroFine);
+            }
+
+            // Apply sorting
+            query = filter.SortBy?.ToLower() switch
+            {
+                "nome" => filter.SortAscending ?
+                    query.OrderBy(p => p.Nome) :
+                    query.OrderByDescending(p => p.Nome),
+                "cognome" => filter.SortAscending ?
+                    query.OrderBy(p => p.Cognome) :
+                    query.OrderByDescending(p => p.Cognome),
+                "dataricovero" => filter.SortAscending ?
+                    query.OrderBy(p => p.DataRicovero) :
+                    query.OrderByDescending(p => p.DataRicovero),
+                "medico" => filter.SortAscending ?
+                    query.OrderBy(p => p.Medico.Cognome) :
+                    query.OrderByDescending(p => p.Medico.Cognome),
+                _ => query.OrderBy(p => p.Cognome)
+            };
+
+            return await query.ToListAsync();
+        }
         public async Task<IEnumerable<Paziente>> GetAllPazienti()
         {
             return await _context.Pazienti

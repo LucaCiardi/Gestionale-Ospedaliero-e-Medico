@@ -17,11 +17,30 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
         }
 
         // GET: Paziente
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index([FromQuery] PazienteFilterModel? filter)
         {
-            var pazienti = await _pazienteService.GetAllPazienti();
+            filter ??= new PazienteFilterModel();
+
+            var medici = await _medicoService.GetAllMedici();
+            ViewBag.Medici = new SelectList(medici
+                .Select(m => new
+                {
+                    m.Id,
+                    NomeCompleto = $"{m.Cognome} {m.Nome} - {m.Reparto}"
+                }), "Id", "NomeCompleto", filter.MedicoId);
+
+            var reparti = medici
+                .Select(m => m.Reparto)
+                .Distinct()
+                .OrderBy(r => r)
+                .ToList();
+            ViewBag.Reparti = new SelectList(reparti, filter.Reparto);
+
+            var pazienti = await _pazienteService.GetFilteredPazienti(filter);
             return View(pazienti);
         }
+
 
         // GET: Paziente/Details/5
         public async Task<IActionResult> Details(int id)
@@ -113,8 +132,8 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
         // GET: Paziente/ByMedico/5
         public async Task<IActionResult> ByMedico(int medicoId)
         {
-            var pazienti = await _pazienteService.GetPazientiByMedico(medicoId);
-            return View("Index", pazienti);
+            var filter = new PazienteFilterModel { MedicoId = medicoId };
+            return RedirectToAction(nameof(Index), filter);
         }
     }
 }

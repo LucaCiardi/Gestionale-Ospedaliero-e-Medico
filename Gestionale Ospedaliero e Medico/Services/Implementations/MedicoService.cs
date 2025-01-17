@@ -13,7 +13,55 @@ namespace Gestionale_Ospedaliero_e_Medico.Services.Implementations
         {
             _context = context;
         }
+        public async Task<IEnumerable<Medico>> GetFilteredMedici(MedicoFilterModel filter)
+        {
+            var query = _context.Medici
+                .Include(m => m.Ospedale)
+                .Include(m => m.Pazienti)
+                .AsQueryable();
 
+            // Apply filters
+            if (!string.IsNullOrEmpty(filter.SearchTerm))
+            {
+                query = query.Where(m => m.Nome.Contains(filter.SearchTerm) ||
+                                       m.Cognome.Contains(filter.SearchTerm));
+            }
+
+            if (!string.IsNullOrEmpty(filter.Reparto))
+            {
+                query = query.Where(m => m.Reparto == filter.Reparto);
+            }
+
+            if (filter.Primario.HasValue)
+            {
+                query = query.Where(m => m.Primario == filter.Primario);
+            }
+
+            if (filter.OspedaleId.HasValue)
+            {
+                query = query.Where(m => m.OspedaleId == filter.OspedaleId);
+            }
+
+            // Apply sorting
+            query = filter.SortBy?.ToLower() switch
+            {
+                "nome" => filter.SortAscending ?
+                    query.OrderBy(m => m.Nome) :
+                    query.OrderByDescending(m => m.Nome),
+                "cognome" => filter.SortAscending ?
+                    query.OrderBy(m => m.Cognome) :
+                    query.OrderByDescending(m => m.Cognome),
+                "reparto" => filter.SortAscending ?
+                    query.OrderBy(m => m.Reparto) :
+                    query.OrderByDescending(m => m.Reparto),
+                "pazienti" => filter.SortAscending ?
+                    query.OrderBy(m => m.Pazienti.Count) :
+                    query.OrderByDescending(m => m.Pazienti.Count),
+                _ => query.OrderBy(m => m.Cognome)
+            };
+
+            return await query.ToListAsync();
+        }
         public async Task<IEnumerable<Medico>> GetAllMedici()
         {
             return await _context.Medici

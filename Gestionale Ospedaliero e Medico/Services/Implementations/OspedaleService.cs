@@ -13,7 +13,46 @@ namespace Gestionale_Ospedaliero_e_Medico.Services.Implementations
         {
             _context = context;
         }
+        public async Task<IEnumerable<Ospedale>> GetFilteredOspedali(OspedaleFilterModel filter)
+        {
+            var query = _context.Ospedali
+                .Include(o => o.Medici)
+                .AsQueryable();
 
+            // Apply filters
+            if (!string.IsNullOrEmpty(filter.SearchTerm))
+            {
+                query = query.Where(o => o.Nome.Contains(filter.SearchTerm) ||
+                                       o.Sede.Contains(filter.SearchTerm));
+            }
+
+            if (!string.IsNullOrEmpty(filter.Sede))
+            {
+                query = query.Where(o => o.Sede == filter.Sede);
+            }
+
+            if (filter.Pubblico.HasValue)
+            {
+                query = query.Where(o => o.Pubblico == filter.Pubblico);
+            }
+
+            // Apply sorting
+            query = filter.SortBy?.ToLower() switch
+            {
+                "nome" => filter.SortAscending ?
+                    query.OrderBy(o => o.Nome) :
+                    query.OrderByDescending(o => o.Nome),
+                "sede" => filter.SortAscending ?
+                    query.OrderBy(o => o.Sede) :
+                    query.OrderByDescending(o => o.Sede),
+                "medici" => filter.SortAscending ?
+                    query.OrderBy(o => o.Medici.Count) :
+                    query.OrderByDescending(o => o.Medici.Count),
+                _ => query.OrderBy(o => o.Nome)
+            };
+
+            return await query.ToListAsync();
+        }
         public async Task<IEnumerable<Ospedale>> GetAllOspedali()
         {
             return await _context.Ospedali

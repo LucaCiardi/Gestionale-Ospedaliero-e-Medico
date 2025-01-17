@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Gestionale_Ospedaliero_e_Medico.Services.Interfaces;
 using Gestionale_Ospedaliero_e_Medico.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Gestionale_Ospedaliero_e_Medico.Controllers
 {
@@ -12,7 +13,16 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
         {
             _ospedaleService = ospedaleService;
         }
+        // GET: Ospedale
+        public async Task<IActionResult> Index(OspedaleFilterModel filter)
+        {
+            // Prepare filter dropdowns
+            var ospedali = await _ospedaleService.GetAllOspedali();
+            ViewBag.Sedi = new SelectList(ospedali.Select(o => o.Sede).Distinct());
 
+            var filteredOspedali = await _ospedaleService.GetFilteredOspedali(filter);
+            return View(filteredOspedali);
+        }
         // GET: Ospedale
         public async Task<IActionResult> Index()
         {
@@ -97,6 +107,17 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
         {
             await _ospedaleService.DeleteOspedale(id);
             return RedirectToAction(nameof(Index));
+        }
+        // Add sorting action
+        [HttpGet]
+        public async Task<IActionResult> Sort(string sortBy, bool ascending)
+        {
+            var filter = new OspedaleFilterModel
+            {
+                SortBy = sortBy,
+                SortAscending = ascending
+            };
+            return RedirectToAction(nameof(Index), filter);
         }
     }
 }

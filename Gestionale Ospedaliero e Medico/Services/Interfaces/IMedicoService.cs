@@ -4,6 +4,7 @@ namespace Gestionale_Ospedaliero_e_Medico.Services.Interfaces
 {
     public interface IMedicoService
     {
+        Task<IEnumerable<Medico>> GetFilteredMedici(MedicoFilterModel filter);
         Task<IEnumerable<Medico>> GetAllMedici();
         Task<Medico?> GetMedicoById(int id);
         Task<Medico> CreateMedico(Medico medico);
