@@ -32,14 +32,14 @@ namespace Gestionale_Ospedaliero_e_Medico.Services.Implementations
                 query = query.Where(m => m.Reparto == filter.Reparto);
             }
 
-            if (filter.Primario.HasValue)
-            {
-                query = query.Where(m => m.Primario == filter.Primario);
-            }
-
             if (filter.OspedaleId.HasValue)
             {
                 query = query.Where(m => m.OspedaleId == filter.OspedaleId);
+            }
+
+            if (filter.Primario.HasValue)
+            {
+                query = query.Where(m => m.Primario == filter.Primario);
             }
 
             // Apply sorting
@@ -54,6 +54,9 @@ namespace Gestionale_Ospedaliero_e_Medico.Services.Implementations
                 "reparto" => filter.SortAscending ?
                     query.OrderBy(m => m.Reparto) :
                     query.OrderByDescending(m => m.Reparto),
+                "ospedale" => filter.SortAscending ?
+                    query.OrderBy(m => m.Ospedale.Nome) :
+                    query.OrderByDescending(m => m.Ospedale.Nome),
                 "pazienti" => filter.SortAscending ?
                     query.OrderBy(m => m.Pazienti.Count) :
                     query.OrderByDescending(m => m.Pazienti.Count),

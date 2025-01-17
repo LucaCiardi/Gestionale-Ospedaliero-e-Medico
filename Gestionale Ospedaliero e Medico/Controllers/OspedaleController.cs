@@ -13,24 +13,21 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
         {
             _ospedaleService = ospedaleService;
         }
-        // GET: Ospedale
-        public async Task<IActionResult> Index(OspedaleFilterModel filter)
+
+        [HttpGet]
+        public async Task<IActionResult> Index([FromQuery] OspedaleFilterModel? filter)
         {
-            // Prepare filter dropdowns
+            filter ??= new OspedaleFilterModel();
+
             var ospedali = await _ospedaleService.GetAllOspedali();
-            ViewBag.Sedi = new SelectList(ospedali.Select(o => o.Sede).Distinct());
+            ViewBag.Sedi = new SelectList(
+                ospedali.Select(o => o.Sede).Distinct().OrderBy(s => s)
+            );
 
             var filteredOspedali = await _ospedaleService.GetFilteredOspedali(filter);
             return View(filteredOspedali);
         }
-        // GET: Ospedale
-        public async Task<IActionResult> Index()
-        {
-            var ospedali = await _ospedaleService.GetAllOspedali();
-            return View(ospedali);
-        }
 
-        // GET: Ospedale/Details/5
         public async Task<IActionResult> Details(int id)
         {
             var ospedale = await _ospedaleService.GetOspedaleById(id);
@@ -41,13 +38,11 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
             return View(ospedale);
         }
 
-        // GET: Ospedale/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Ospedale/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Nome,Sede,Pubblico")] Ospedale ospedale)
@@ -60,7 +55,6 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
             return View(ospedale);
         }
 
-        // GET: Ospedale/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
             var ospedale = await _ospedaleService.GetOspedaleById(id);
@@ -71,7 +65,6 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
             return View(ospedale);
         }
 
-        // POST: Ospedale/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Sede,Pubblico")] Ospedale ospedale)
@@ -89,7 +82,6 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
             return View(ospedale);
         }
 
-        // GET: Ospedale/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
             var ospedale = await _ospedaleService.GetOspedaleById(id);
@@ -100,24 +92,12 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
             return View(ospedale);
         }
 
-        // POST: Ospedale/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _ospedaleService.DeleteOspedale(id);
             return RedirectToAction(nameof(Index));
-        }
-        // Add sorting action
-        [HttpGet]
-        public async Task<IActionResult> Sort(string sortBy, bool ascending)
-        {
-            var filter = new OspedaleFilterModel
-            {
-                SortBy = sortBy,
-                SortAscending = ascending
-            };
-            return RedirectToAction(nameof(Index), filter);
         }
     }
 }

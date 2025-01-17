@@ -15,28 +15,33 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
             _medicoService = medicoService;
             _ospedaleService = ospedaleService;
         }
-        // GET: Medico
-        public async Task<IActionResult> Index(MedicoFilterModel filter)
+
+        [HttpGet]
+        public async Task<IActionResult> Index([FromQuery] MedicoFilterModel? filter)
         {
-            // Prepare filter dropdowns
+            filter ??= new MedicoFilterModel();
+
             var ospedali = await _ospedaleService.GetAllOspedali();
-            ViewBag.Ospedali = new SelectList(ospedali, "Id", "Nome", filter.OspedaleId);
+            ViewBag.Ospedali = new SelectList(
+                ospedali.Select(o => new
+                {
+                    Id = o.Id,
+                    Nome = $"{o.Nome} ({o.Sede})"
+                }),
+                "Id",
+                "Nome",
+                filter.OspedaleId
+            );
 
             var medici = await _medicoService.GetAllMedici();
-            ViewBag.Reparti = new SelectList(medici.Select(m => m.Reparto).Distinct());
+            ViewBag.Reparti = new SelectList(
+                medici.Select(m => m.Reparto).Distinct().OrderBy(r => r)
+            );
 
             var filteredMedici = await _medicoService.GetFilteredMedici(filter);
             return View(filteredMedici);
         }
 
-        // GET: Medico
-        public async Task<IActionResult> Index()
-        {
-            var medici = await _medicoService.GetAllMedici();
-            return View(medici);
-        }
-
-        // GET: Medico/Details/5
         public async Task<IActionResult> Details(int id)
         {
             var medico = await _medicoService.GetMedicoById(id);
@@ -47,7 +52,6 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
             return View(medico);
         }
 
-        // GET: Medico/Create
         public async Task<IActionResult> Create()
         {
             var ospedali = await _ospedaleService.GetAllOspedali();
@@ -55,7 +59,6 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
             return View();
         }
 
-        // POST: Medico/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Nome,Cognome,Dob,Residenza,Reparto,Primario,PazientiGuariti,TotaleDecessi,OspedaleId")] Medico medico)
@@ -70,7 +73,6 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
             return View(medico);
         }
 
-        // GET: Medico/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
             var medico = await _medicoService.GetMedicoById(id);
@@ -83,7 +85,6 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
             return View(medico);
         }
 
-        // POST: Medico/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Cognome,Dob,Residenza,Reparto,Primario,PazientiGuariti,TotaleDecessi,OspedaleId")] Medico medico)
@@ -103,7 +104,6 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
             return View(medico);
         }
 
-        // GET: Medico/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
             var medico = await _medicoService.GetMedicoById(id);
@@ -114,31 +114,12 @@ namespace Gestionale_Ospedaliero_e_Medico.Controllers
             return View(medico);
         }
 
-        // POST: Medico/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _medicoService.DeleteMedico(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        // GET: Medico/ByReparto
-        public async Task<IActionResult> ByReparto(string reparto)
-        {
-            var medici = await _medicoService.GetMediciByReparto(reparto);
-            return View("Index", medici);
-        }
-        // Add sorting action
-        [HttpGet]
-        public async Task<IActionResult> Sort(string sortBy, bool ascending)
-        {
-            var filter = new MedicoFilterModel
-            {
-                SortBy = sortBy,
-                SortAscending = ascending
-            };
-            return RedirectToAction(nameof(Index), filter);
         }
     }
 }

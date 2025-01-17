@@ -22,8 +22,7 @@ namespace Gestionale_Ospedaliero_e_Medico.Services.Implementations
             // Apply filters
             if (!string.IsNullOrEmpty(filter.SearchTerm))
             {
-                query = query.Where(o => o.Nome.Contains(filter.SearchTerm) ||
-                                       o.Sede.Contains(filter.SearchTerm));
+                query = query.Where(o => o.Nome.Contains(filter.SearchTerm));
             }
 
             if (!string.IsNullOrEmpty(filter.Sede))
@@ -45,6 +44,9 @@ namespace Gestionale_Ospedaliero_e_Medico.Services.Implementations
                 "sede" => filter.SortAscending ?
                     query.OrderBy(o => o.Sede) :
                     query.OrderByDescending(o => o.Sede),
+                "tipo" => filter.SortAscending ?
+                    query.OrderBy(o => o.Pubblico) :
+                    query.OrderByDescending(o => o.Pubblico),
                 "medici" => filter.SortAscending ?
                     query.OrderBy(o => o.Medici.Count) :
                     query.OrderByDescending(o => o.Medici.Count),

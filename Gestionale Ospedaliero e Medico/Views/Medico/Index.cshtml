@@ -10,6 +10,59 @@
     <a href="@Url.Action("Create", "Medico")" class="btn btn-primary">Aggiungi Nuovo Medico</a>
 </p>
 
+<!-- Filter Form -->
+<form method="get" class="card card-body shadow-sm mb-4">
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="form-label">Ricerca</label>
+                <input type="text" name="SearchTerm" class="form-control"
+                       placeholder="Nome o Cognome..." value="@ViewBag.CurrentFilter">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="form-label">Ospedale</label>
+                <select name="OspedaleId" class="form-select">
+                    <option value="">-- Seleziona Ospedale --</option>
+                    @foreach (SelectListItem item in ViewBag.Ospedali)
+                    {
+                        <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="form-label">Reparto</label>
+                <select name="Reparto" class="form-select">
+                    <option value="">-- Seleziona Reparto --</option>
+                    @foreach (SelectListItem item in ViewBag.Reparti)
+                    {
+                        <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="form-label">Ruolo</label>
+                <select name="Primario" class="form-select">
+                    <option value="">-- Tutti --</option>
+                    <option value="true">Primario</option>
+                    <option value="false">Non Primario</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-search"></i> Filtra
+            </button>
+            <a href="@Url.Action("Index")" class="btn btn-secondary ms-2">Reset</a>
+        </div>
+    </div>
+</form>
+
 <table class="table table-striped">
     <thead>
         <tr>
