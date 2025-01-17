@@ -38,6 +38,6 @@
 </div>
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Modifica</a>
-    <a asp-action="Index" class="btn btn-secondary">Torna alla Lista</a>
+    <a href="@Url.Action("Edit", "Paziente", new { id = Model?.Id })" class="btn btn-warning">Modifica</a>
+    <a href="@Url.Action("Index", "Paziente")" class="btn btn-secondary">Torna alla Lista</a>
 </div>

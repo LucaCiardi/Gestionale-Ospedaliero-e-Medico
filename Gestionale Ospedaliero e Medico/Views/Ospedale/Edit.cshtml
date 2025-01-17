@@ -8,32 +8,34 @@
 
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+        <form action="@Url.Action("Edit", "Ospedale")" method="post">
+            @Html.AntiForgeryToken()
+            <div class="text-danger">@Html.ValidationSummary(true)</div>
+            <input type="hidden" name="Id" value="@Model.Id" />
 
             <div class="form-group mb-3">
-                <label asp-for="Nome" class="control-label"></label>
-                <input asp-for="Nome" class="form-control" />
-                <span asp-validation-for="Nome" class="text-danger"></span>
+                <label for="Nome" class="control-label">@Html.DisplayNameFor(m => m.Nome)</label>
+                <input type="text" id="Nome" name="Nome" value="@Model.Nome" class="form-control" />
+                @Html.ValidationMessageFor(m => m.Nome, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="Sede" class="control-label"></label>
-                <input asp-for="Sede" class="form-control" />
-                <span asp-validation-for="Sede" class="text-danger"></span>
+                <label for="Sede" class="control-label">@Html.DisplayNameFor(m => m.Sede)</label>
+                <input type="text" id="Sede" name="Sede" value="@Model.Sede" class="form-control" />
+                @Html.ValidationMessageFor(m => m.Sede, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group mb-3">
                 <div class="form-check">
-                    <input asp-for="Pubblico" class="form-check-input" />
-                    <label asp-for="Pubblico" class="form-check-label"></label>
+                    <input type="checkbox" id="Pubblico" name="Pubblico" value="true" @(Model.Pubblico ? "checked" : "") class="form-check-input" />
+                    <input type="hidden" name="Pubblico" value="false" />
+                    <label for="Pubblico" class="form-check-label">@Html.DisplayNameFor(m => m.Pubblico)</label>
                 </div>
             </div>
 
             <div class="form-group">
                 <input type="submit" value="Salva" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Torna alla Lista</a>
+                <a href="@Url.Action("Index", "Ospedale")" class="btn btn-secondary">Torna alla Lista</a>
             </div>
         </form>
     </div>

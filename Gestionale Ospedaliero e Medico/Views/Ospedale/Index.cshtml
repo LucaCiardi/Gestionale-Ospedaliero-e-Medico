@@ -7,7 +7,7 @@
 <h1>Gestione Ospedali</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Aggiungi Nuovo Ospedale</a>
+    <a href="@Url.Action("Create", "Ospedale")" class="btn btn-primary">Aggiungi Nuovo Ospedale</a>
 </p>
 
 <table class="table table-striped">
@@ -29,9 +29,9 @@
                 <td>@(item.Pubblico ? "Sì" : "No")</td>
                 <td>@item.Medici?.Count</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Modifica</a>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Dettagli</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Elimina</a>
+                    <a href="@Url.Action("Edit", "Ospedale", new { id = item.Id })" class="btn btn-warning btn-sm">Modifica</a>
+                    <a href="@Url.Action("Details", "Ospedale", new { id = item.Id })" class="btn btn-info btn-sm">Dettagli</a>
+                    <a href="@Url.Action("Delete", "Ospedale", new { id = item.Id })" class="btn btn-danger btn-sm">Elimina</a>
                 </td>
             </tr>
         }

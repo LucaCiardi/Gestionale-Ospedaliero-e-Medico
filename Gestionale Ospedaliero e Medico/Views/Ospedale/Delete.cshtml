@@ -26,9 +26,10 @@
         <dd class="col-sm-9">@Model.Medici?.Count</dd>
     </dl>
 
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
+    <form action="@Url.Action("Delete", "Ospedale")" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="Id" value="@Model.Id" />
         <input type="submit" value="Elimina" class="btn btn-danger" />
-        <a asp-action="Index" class="btn btn-secondary">Annulla</a>
+        <a href="@Url.Action("Index", "Ospedale")" class="btn btn-secondary">Annulla</a>
     </form>
 </div>

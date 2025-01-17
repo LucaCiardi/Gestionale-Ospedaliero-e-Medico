@@ -7,7 +7,7 @@
 <h1>Gestione Medici</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Aggiungi Nuovo Medico</a>
+    <a href="@Url.Action("Create", "Medico")" class="btn btn-primary">Aggiungi Nuovo Medico</a>
 </p>
 
 <table class="table table-striped">
@@ -25,19 +25,19 @@
     <tbody>
         @foreach (var item in Model)
         {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Nome)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Cognome)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Reparto)</td>
-                    <td>@(item.Primario ? "Sì" : "No")</td>
-                    <td>@item.Ospedale?.Nome</td>
-                    <td>@item.Pazienti?.Count</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Modifica</a>
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Dettagli</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Elimina</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+                <td>@Html.DisplayFor(modelItem => item.Cognome)</td>
+                <td>@Html.DisplayFor(modelItem => item.Reparto)</td>
+                <td>@(item.Primario ? "Sì" : "No")</td>
+                <td>@item.Ospedale?.Nome</td>
+                <td>@item.Pazienti?.Count</td>
+                <td>
+                    <a href="@Url.Action("Edit", "Medico", new { id = item.Id })" class="btn btn-warning btn-sm">Modifica</a>
+                    <a href="@Url.Action("Details", "Medico", new { id = item.Id })" class="btn btn-info btn-sm">Dettagli</a>
+                    <a href="@Url.Action("Delete", "Medico", new { id = item.Id })" class="btn btn-danger btn-sm">Elimina</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

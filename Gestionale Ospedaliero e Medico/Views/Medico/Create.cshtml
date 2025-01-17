@@ -8,55 +8,57 @@
 
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form action="@Url.Action("Create", "Medico")" method="post">
+            @Html.AntiForgeryToken()
+            <div class="text-danger">@Html.ValidationSummary(true)</div>
 
             <div class="form-group mb-3">
-                <label asp-for="Nome" class="control-label"></label>
-                <input asp-for="Nome" class="form-control" />
-                <span asp-validation-for="Nome" class="text-danger"></span>
+                <label for="Nome" class="control-label">@Html.DisplayNameFor(m => m.Nome)</label>
+                <input type="text" id="Nome" name="Nome" class="form-control" />
+                @Html.ValidationMessageFor(m => m.Nome, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="Cognome" class="control-label"></label>
-                <input asp-for="Cognome" class="form-control" />
-                <span asp-validation-for="Cognome" class="text-danger"></span>
+                <label for="Cognome" class="control-label">@Html.DisplayNameFor(m => m.Cognome)</label>
+                <input type="text" id="Cognome" name="Cognome" class="form-control" />
+                @Html.ValidationMessageFor(m => m.Cognome, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="Dob" class="control-label">Data di Nascita</label>
-                <input asp-for="Dob" class="form-control" type="date" />
-                <span asp-validation-for="Dob" class="text-danger"></span>
+                <label for="Dob" class="control-label">Data di Nascita</label>
+                <input type="date" id="Dob" name="Dob" class="form-control" />
+                @Html.ValidationMessageFor(m => m.Dob, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="Residenza" class="control-label"></label>
-                <input asp-for="Residenza" class="form-control" />
-                <span asp-validation-for="Residenza" class="text-danger"></span>
+                <label for="Residenza" class="control-label">@Html.DisplayNameFor(m => m.Residenza)</label>
+                <input type="text" id="Residenza" name="Residenza" class="form-control" />
+                @Html.ValidationMessageFor(m => m.Residenza, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="Reparto" class="control-label"></label>
-                <input asp-for="Reparto" class="form-control" />
-                <span asp-validation-for="Reparto" class="text-danger"></span>
+                <label for="Reparto" class="control-label">@Html.DisplayNameFor(m => m.Reparto)</label>
+                <input type="text" id="Reparto" name="Reparto" class="form-control" />
+                @Html.ValidationMessageFor(m => m.Reparto, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group mb-3">
                 <div class="form-check">
-                    <input asp-for="Primario" class="form-check-input" />
-                    <label asp-for="Primario" class="form-check-label"></label>
+                    <input type="checkbox" id="Primario" name="Primario" value="true" class="form-check-input" />
+                    <input type="hidden" name="Primario" value="false" />
+                    <label for="Primario" class="form-check-label">@Html.DisplayNameFor(m => m.Primario)</label>
                 </div>
             </div>
 
             <div class="form-group mb-3">
-                <label asp-for="OspedaleId" class="control-label">Ospedale</label>
-                <select asp-for="OspedaleId" class="form-select" asp-items="ViewBag.Ospedali"></select>
-                <span asp-validation-for="OspedaleId" class="text-danger"></span>
+                <label for="OspedaleId" class="control-label">Ospedale</label>
+                @Html.DropDownList("OspedaleId", (SelectList)ViewBag.Ospedali, new { @class = "form-select" })
+                @Html.ValidationMessageFor(m => m.OspedaleId, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
                 <input type="submit" value="Crea" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Torna alla Lista</a>
+                <a href="@Url.Action("Index", "Medico")" class="btn btn-secondary">Torna alla Lista</a>
             </div>
         </form>
     </div>
